@@ -11,4 +11,4 @@ labels:
   org.opencontainers.image.source: "https://github.com/BeardBucket/Home-Badger"
   org.opencontainers.image.licenses: "GPL v3"
 args:
-  TEMPIO_VERSION: "2023.03.0"
+  TEMPIO_VERSION: "2021.09.0"
