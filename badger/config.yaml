@@ -3,7 +3,7 @@ name: Badger add-on
 version: "1.0.0"
 slug: badger
 description: Badger add-on adds badge scan support
-url: "https://github.com/home-assistant/addons-example/tree/main/example"
+url: "https://github.com/BeardBucket/Home-Badger/tree/main/badger"
 arch:
   - armhf
   - armv7

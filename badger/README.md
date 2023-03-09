@@ -1,5 +1,5 @@
 # Home Assistant Add-on: Badger Add-on
-
+** Work In Progress **
 _Add badge scan support._
 
 ![Supports aarch64 Architecture][aarch64-shield]
