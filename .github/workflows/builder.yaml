@@ -14,8 +14,7 @@ on:
 
 jobs:
   init:
-    runs-on:
-      labels: linux
+    runs-on: [ self-hosted, linux ]
     name: Initialize builds
     outputs:
       changed_addons: ${{ steps.changed_addons.outputs.addons }}
@@ -62,8 +61,7 @@ jobs:
           fi
   build:
     needs: init
-    runs-on:
-      labels: linux
+    runs-on: [ self-hosted, linux ]
     if: needs.init.outputs.changed == 'true'
     name: Build ${{ matrix.arch }} ${{ matrix.addon }} add-on
     strategy:
