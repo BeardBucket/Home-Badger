@@ -35,6 +35,7 @@ jobs:
         id: changed_addons
         run: |
           declare -a changed_addons
+          echo "${{ steps.changed_files.outputs.all }}"
           for addon in ${{ steps.addons.outputs.addons }}; do
             if [[ "${{ steps.changed_files.outputs.all }}" =~ $addon ]]; then
               for file in ${{ env.MONITORED_FILES }}; do
