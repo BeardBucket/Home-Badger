@@ -14,7 +14,7 @@ jobs:
   find:
     name: Find add-ons
     runs-on:
-      labels: Linux
+      labels: linux
     outputs:
       addons: ${{ steps.addons.outputs.addons_list }}
     steps:
@@ -28,7 +28,7 @@ jobs:
   lint:
     name: Lint add-on ${{ matrix.path }}
     runs-on:
-      labels: Linux
+      labels: linux
     needs: find
     strategy:
       matrix:
