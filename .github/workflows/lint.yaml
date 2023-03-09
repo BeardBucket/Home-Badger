@@ -1,7 +1,5 @@
 name: Lint
 
-runs-on: hs1
-
 on:
   push:
     branches:
@@ -15,7 +13,8 @@ on:
 jobs:
   find:
     name: Find add-ons
-    runs-on: ubuntu-latest
+    runs-on:
+      group: Default
     outputs:
       addons: ${{ steps.addons.outputs.addons_list }}
     steps:
@@ -28,7 +27,8 @@ jobs:
 
   lint:
     name: Lint add-on ${{ matrix.path }}
-    runs-on: ubuntu-latest
+    runs-on:
+      group: Default
     needs: find
     strategy:
       matrix:
