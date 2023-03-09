@@ -1,5 +1,7 @@
 name: Lint
 
+runs-on: hs1
+
 on:
   push:
     branches:
