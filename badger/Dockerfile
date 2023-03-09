@@ -1,3 +1,5 @@
+FROM $BUILD_FROM
+
 FROM golang:1-alpine AS builder
 ARG BUILD_ARCH
 
@@ -12,7 +14,6 @@ RUN GOOS=linux GOARCH=${BUILD_ARCH} go build -v -o /usr/local/bin/builder ./...
 
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-dockerfile
 ARG BUILD_FROM
-FROM $BUILD_FROM
 ARG TEMPIO_VERSION BUILD_ARCH
 
 # Execute during the build of the image
