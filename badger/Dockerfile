@@ -5,7 +5,7 @@ ARG BUILD_ARCH
 
 RUN mkdir -p WORKDIR /usr/src/app
 WORKDIR /usr/src/app
-COPY src/go.mod go.sum ./
+COPY src/go.mod src/go.sum ./
 RUN go mod download && go mod verify
 
 COPY . /usr/src/app/
