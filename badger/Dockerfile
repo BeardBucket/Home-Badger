@@ -8,9 +8,11 @@ WORKDIR /usr/src/app
 COPY src/go.mod src/go.sum ./
 RUN go mod download && go mod verify
 
-COPY . /usr/src/app/
+COPY src/ /usr/src/app
 
-RUN GOOS=linux GOARCH=${BUILD_ARCH} go build -v -o /usr/local/bin/builder ./...
+WORKDIR /usr/src/app
+
+RUN GOOS=linux GOARCH=${BUILD_ARCH} go build -v -o /usr/local/bin/builder ./main.go
 
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-dockerfile
 FROM $BUILD_FROM
