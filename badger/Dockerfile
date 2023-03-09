@@ -15,6 +15,9 @@ WORKDIR /usr/src/app
 RUN if [[ "${BUILD_ARCH}" == "i386" ]];  \
     then  \
       GOOS=linux GOARCH=386 go build -v -o /usr/local/bin/builder ./main.go; \
+    elif [[ "${BUILD_ARCH}" == "aarch64" ]];  \
+             then  \
+               GOOS=linux GOARCH=arm64 go build -v -o /usr/local/bin/builder ./main.go; \
     else \
       GOOS=linux GOARCH=${BUILD_ARCH} go build -v -o /usr/local/bin/builder ./main.go; \
     fi
