@@ -42,7 +42,7 @@ jobs:
                   echo "Checking '${{ steps.changed_files.outputs.all_changed_files }}' =~ '$addon/$file'"
                   if [[ "${{ steps.changed_files.outputs.all_changed_files }}" =~ $addon/$file ]]; then
                     if [[ ! "${changed_addons[@]}" =~ $addon ]]; then
-                      echo "Changed!"
+                      echo "Changed: '$addon/$file'"
                       changed_addons+=("\"${addon}\",");
                     fi
                   fi
