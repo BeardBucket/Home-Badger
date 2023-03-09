@@ -11,4 +11,5 @@ RUN \
 # Copy root filesystem
 COPY rootfs /
 # Fix perms
+RUN chown root:root /etc/services.d/badger/* /usr/bin/badger
 RUN chmod 755 /etc/services.d/badger/* /usr/bin/badger
