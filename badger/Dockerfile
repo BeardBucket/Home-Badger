@@ -37,4 +37,3 @@ COPY --from=builder /usr/local/bin/builder /usr/bin/badger
 # Fix perms
 RUN chown root:root /etc/services.d/badger/* /usr/bin/badger
 RUN chmod 755 /etc/services.d/badger/* /usr/bin/badger
-
