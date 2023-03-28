@@ -12,3 +12,4 @@ labels:
   org.opencontainers.image.licenses: "GPL v3"
 args:
   TEMPIO_VERSION: "2021.09.0"
+  DOCKER_BUILDKIT: "0"
