@@ -67,6 +67,7 @@ jobs:
     if: needs.init.outputs.changed == 'true'
     name: Build ${{ matrix.arch }} ${{ matrix.addon }} add-on
     strategy:
+      max-parallel: 4
       matrix:
         addon: ${{ fromJson(needs.init.outputs.changed_addons) }}
         arch: [ "aarch64", "amd64", "armhf", "armv7", "i386" ]
@@ -74,6 +75,20 @@ jobs:
     steps:
       - name: Check out repository
         uses: actions/checkout@v3.5.0
+
+      - name: Golang Arch Lookup Read build.yaml
+        id: golang-arch-lookup-read
+        run: |
+          echo 'BUILD_JSON<<EOF' >> $GITHUB_ENV
+          cat ./${{ matrix.addon }}/build.yaml >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
+
+      - name: Golang Arch Lookup Parse build.yaml
+        id: golang-arch-lookup-parse
+        run: |
+          echo 'GOLANG_ARCH<<EOF' >> $GITHUB_ENV
+          echo '${{ fromJson(env.BUILD_JSON).arch_golang.${{ matrix.arch }}' >> $GITHUB_ENV
+          echo 'EOF' >> $GITHUB_ENV
 
       - name: Get information
         id: info
@@ -109,6 +124,7 @@ jobs:
         with:
           args: |
             ${{ env.BUILD_ARGS }} \
+            --arg GOLANG_ARCH={{ env.GOLANG_ARCH }} \
             --${{ matrix.arch }} \
             --target /data/${{ matrix.addon }} \
             --image "${{ steps.check.outputs.image }}" \

@@ -1,7 +1,8 @@
 ARG BUILD_FROM
 ARG BUILD_ARCH
+ARG GOLANG_ARCH
 
-FROM $BUILD_ARCH/golang:1-alpine AS builder
+FROM $GOLANG_ARCH/golang:1-alpine AS builder
 
 RUN mkdir -p WORKDIR /usr/src/app
 WORKDIR /usr/src/app
@@ -12,21 +13,7 @@ COPY src/ /usr/src/app
 
 WORKDIR /usr/src/app
 
-RUN if [[ "${BUILD_ARCH}" == "i386" ]];  \
-    then  \
-      GOOS=linux GOARCH=386 go build -v -o /usr/local/bin/builder ./main.go; \
-    elif [[ "${BUILD_ARCH}" == "aarch64" ]];  \
-    then  \
-      GOOS=linux GOARCH=arm64 go build -v -o /usr/local/bin/builder ./main.go; \
-    elif [[ "${BUILD_ARCH}" == "armhf" ]];  \
-    then  \
-      GOOS=linux GOARCH=arm32v6 go build -v -o /usr/local/bin/builder ./main.go; \
-    elif [[ "${BUILD_ARCH}" == "armv7" ]];  \
-    then  \
-      GOOS=linux GOARCH=arm64 go build -v -o /usr/local/bin/builder ./main.go; \
-    else \
-      GOOS=linux GOARCH=${BUILD_ARCH} go build -v -o /usr/local/bin/builder ./main.go; \
-    fi
+RUN GOOS=linux GOARCH=${$GOLANG_ARCH} go build -v -o /usr/local/bin/builder ./main.go; \
 
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-dockerfile
 FROM $BUILD_FROM
