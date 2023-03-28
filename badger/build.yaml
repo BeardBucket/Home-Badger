@@ -12,9 +12,3 @@ labels:
   org.opencontainers.image.licenses: "GPL v3"
 args:
   TEMPIO_VERSION: "2021.09.0"
-arch_golang:
-  aarch64: "arm64"
-  amd64: "amd64"
-  armhf: "arm32v6"
-  armv7: "arm64"
-  i386: "386"
