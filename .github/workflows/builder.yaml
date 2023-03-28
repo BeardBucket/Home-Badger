@@ -22,11 +22,11 @@ jobs:
       changed: ${{ steps.changed_addons.outputs.changed }}
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v3.5.0
 
       - name: Get changed files
         id: changed_files
-        uses: tj-actions/changed-files@v35.6.3
+        uses: tj-actions/changed-files@v35.7.6
 
       - name: Find add-on directories
         id: addons
@@ -73,7 +73,7 @@ jobs:
 
     steps:
       - name: Check out repository
-        uses: actions/checkout@v3.3.0
+        uses: actions/checkout@v3.5.0
 
       - name: Get information
         id: info
