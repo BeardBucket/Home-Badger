@@ -1,7 +1,7 @@
 ARG BUILD_FROM
-ARG BUILD_ARCH
 
 FROM golang:1-alpine AS builder
+ARG BUILD_ARCH
 ENV GOLANG_ARCH amd64
 
 RUN mkdir -p WORKDIR /usr/src/app
