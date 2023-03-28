@@ -2,7 +2,7 @@ ARG BUILD_FROM
 ARG BUILD_ARCH
 ARG GOLANG_ARCH
 
-FROM ${GOLANG_ARCH}/golang:1-alpine AS builder
+FROM golang:1-alpine AS builder
 
 RUN mkdir -p WORKDIR /usr/src/app
 WORKDIR /usr/src/app
