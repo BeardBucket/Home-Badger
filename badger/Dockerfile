@@ -1,9 +1,9 @@
-ENV GOLANG_ARCH ""
+ENV GOLANG_IMAGE "golang:1-alpine"
 ARG BUILD_FROM
 
-FROM ${GOLANG_ARCH}/golang:1-alpine AS builder
+FROM GOLANG_IMAGE AS builder
 ARG BUILD_ARCH
-
+ENV GOLANG_ARCH ""
 
 RUN mkdir -p WORKDIR /usr/src/app
 WORKDIR /usr/src/app

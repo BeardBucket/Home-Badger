@@ -75,14 +75,19 @@ jobs:
         include:
           - arch: "aarch64"
             golang_arch: "arm64"
+            golang_image: "aarch64/golang:1-alpine"
           - arch: "amd64"
             golang_arch: "amd64"
+            golang_image: "golang:1-alpine"
           - arch: "armhf"
             golang_arch: "arm32v6"
+            golang_image: "arm32v6/golang:1-alpine"
           - arch: "armv7"
             golang_arch: "arm64"
+            golang_image: "arm64golang:1-alpine"
           - arch: "i386"
             golang_arch: "386"
+            golang_image: "golang:1-alpine"
 
     steps:
       - name: Check out repository
@@ -127,6 +132,7 @@ jobs:
         uses: home-assistant/builder@2023.03.0
         env:
           GOLANG_ARCH: ${{ matrix.golang_arch }}
+          GOLANG_IMAGE: ${{ matrix.golang_image }}
         with:
           args: |
             ${{ env.BUILD_ARGS }} \
