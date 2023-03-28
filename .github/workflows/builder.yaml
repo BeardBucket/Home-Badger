@@ -84,6 +84,8 @@ jobs:
             golang_arch: "386"
 
     steps:
+      - run: go version
+
       - name: Check out repository
         uses: actions/checkout@v3.5.0
 
