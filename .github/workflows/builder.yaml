@@ -121,7 +121,7 @@ jobs:
         with:
           args: |
             ${{ env.BUILD_ARGS }} \
-            --arg GOLANG_ARCH={{ matrix.golang_arch }} \
+            --build-arg GOLANG_ARCH={{ matrix.golang_arch }} \
             --${{ matrix.arch }} \
             --target /data/${{ matrix.addon }} \
             --image "${{ steps.check.outputs.image }}" \
