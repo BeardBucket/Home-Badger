@@ -1,4 +1,4 @@
-ARG GOLANG_ARCH
+ENV GOLANG_ARCH ""
 ARG BUILD_FROM
 
 FROM ${GOLANG_ARCH}/golang:1-alpine AS builder
