@@ -2,7 +2,7 @@ ARG BUILD_FROM
 ARG BUILD_ARCH
 ENV GOLANG_ARCH amd64
 
-FROM $GOLANG_ARCH/golang:1-alpine AS builder
+FROM ${GOLANG_ARCH}/golang:1-alpine AS builder
 
 RUN mkdir -p WORKDIR /usr/src/app
 WORKDIR /usr/src/app
@@ -13,7 +13,7 @@ COPY src/ /usr/src/app
 
 WORKDIR /usr/src/app
 
-RUN GOOS=linux GOARCH=${$GOLANG_ARCH} go build -v -o /usr/local/bin/builder ./main.go; \
+RUN GOOS=linux GOARCH=${GOLANG_ARCH} go build -v -o /usr/local/bin/builder ./main.go; \
 
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-dockerfile
 FROM $BUILD_FROM
