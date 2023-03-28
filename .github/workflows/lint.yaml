@@ -14,7 +14,6 @@ jobs:
   find:
     name: Find add-ons
     runs-on:
-      - self-hosted
       - linux
     outputs:
       addons: ${{ steps.addons.outputs.addons_list }}
@@ -29,7 +28,6 @@ jobs:
   lint:
     name: Lint add-on ${{ matrix.path }}
     runs-on:
-      - self-hosted
       - linux
     needs: find
     strategy:

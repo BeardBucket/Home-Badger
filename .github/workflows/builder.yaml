@@ -15,7 +15,6 @@ on:
 jobs:
   init:
     runs-on:
-      - self-hosted
       - linux
     name: Initialize builds
     outputs:
@@ -64,7 +63,6 @@ jobs:
   build:
     needs: init
     runs-on:
-      - self-hosted
       - linux
     if: needs.init.outputs.changed == 'true'
     name: Build ${{ matrix.arch }} ${{ matrix.addon }} add-on
