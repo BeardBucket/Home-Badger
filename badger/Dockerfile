@@ -1,7 +1,7 @@
 ARG BUILD_FROM
-
-FROM golang:1-alpine AS builder
 ARG BUILD_ARCH
+
+FROM $BUILD_ARCH/golang:1-alpine AS builder
 
 RUN mkdir -p WORKDIR /usr/src/app
 WORKDIR /usr/src/app
