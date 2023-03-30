@@ -1,7 +1,7 @@
 ENV GOLANG_IMAGE "golang:1-alpine"
 ARG BUILD_FROM="xxxxx"
 
-FROM ${GOLANG_IMAGE} AS builder
+FROM golang:1-alpine AS builder
 ARG BUILD_ARCH
 ENV GOLANG_ARCH ""
 
@@ -17,7 +17,7 @@ WORKDIR /usr/src/app
 RUN GOOS=linux GOARCH=${GOLANG_ARCH} go build -v -o /usr/local/bin/builder ./main.go; \
 
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-dockerfile
-FROM ghcr.io/beardbucket/amd64-addon-badger:1.0.41
+FROM $BUILD_FROM
 ARG TEMPIO_VERSION
 ARG BUILD_ARCH
 
