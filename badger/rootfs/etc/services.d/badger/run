@@ -22,6 +22,9 @@ set -x
 #bashio::log.info "Ran help"
 
 ## Run your program
-bashio::log.info "Starting badger..."
-/usr/bin/badger run || (ex="$?" && bashio::log.info "Failed with $ex" && exit $ex)
-bashio::log.info "Started..."
+exec /usr/bin/badger run
+
+#bashio::log.info "Starting badger..."
+#/usr/bin/badger run || (ex="$?" && bashio::log.info "Failed with $ex" && exit $ex)
+#bashio::log.info "Started..."
+
