@@ -16,4 +16,4 @@ message=$(bashio::config 'message')
 bashio::log.info "${message:="Starting badger..."}"
 
 ## Run your program
-exec /usr/bin/badger run
+/usr/bin/badger run
