@@ -35,8 +35,8 @@ RUN curl -sSLf -o /usr/bin/tempio \
 COPY rootfs /
 COPY --from=bldr /usr/local/bin/builder /usr/bin/badger
 # Fix perms
-RUN chown root:root /etc/services.d/badger/* /usr/bin/badger
-RUN chmod 755 /etc/services.d/badger/* /usr/bin/badger
+RUN chown root:root /etc/s6-overlay/s6-rc.d/badger/* /usr/bin/badger
+RUN chmod 755 /etc/s6-overlay/s6-rc.d/badger/* /usr/bin/badger
 
 # Debug
 RUN file /usr/bin/badger
