@@ -16,6 +16,9 @@ WORKDIR /usr/src/app
 
 RUN GOOS=linux GOARCH=${GOLANG_ARCH} go build -v -o /usr/local/bin/builder ./main.go; \
 
+
+ARG BUILD_FROM
+
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-dockerfile
 FROM $BUILD_FROM
 ARG TEMPIO_VERSION BUILD_ARCH
