@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: Badger add-on
-version: "1.0.56"
+version: "1.0.57"
 slug: badger
 description: Badger add-on adds badge scan support
 url: "https://github.com/BeardBucket/Home-Badger/tree/main/badger"
