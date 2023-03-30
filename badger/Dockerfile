@@ -1,4 +1,5 @@
 ENV GOLANG_IMAGE "golang:1-alpine"
+ENV BUILD_FROM "xxxxxx"
 
 FROM ${GOLANG_IMAGE} AS builder
 ARG BUILD_ARCH
@@ -14,9 +15,6 @@ COPY src/ /usr/src/app
 WORKDIR /usr/src/app
 
 RUN GOOS=linux GOARCH=${GOLANG_ARCH} go build -v -o /usr/local/bin/builder ./main.go; \
-
-
-ARG BUILD_FROM
 
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-dockerfile
 FROM $BUILD_FROM
