@@ -1,7 +1,7 @@
-ENV GOLANG_IMAGE "golang:1-alpine"
+ENV GOLANG_IMAGE="golang:1-alpine"
 ARG BUILD_FROM="xxxxx"
 
-FROM golang:1-alpine AS builder
+FROM ${GOLANG_IMAGE} AS builder
 ARG BUILD_ARCH
 ENV GOLANG_ARCH ""
 
