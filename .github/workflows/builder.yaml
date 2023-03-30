@@ -99,7 +99,7 @@ jobs:
           check-latest: true
           cache-dependency-path: src/go.sum
           path: "./${{ matrix.addon }}"
-          architecture: "${{ matrix.golang_arch }}"
+#          architecture: "${{ matrix.golang_arch }}"
 
       - name: Get information
         id: info
