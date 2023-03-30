@@ -15,16 +15,7 @@ message=$(bashio::config 'message')
 ## Print the message the user supplied, defaults to "Hello World..."
 #bashio::log.info "${message:="Starting badger..."}"
 
-set -x
-
-#bashio::log.info "Running help"
-#/usr/bin/badger --help || bashio::log.info "Failed with $?"
-#bashio::log.info "Ran help"
-
-file /usr/bin/badger
-file /bin/bash
-
-## Run your program
+cd /config
 exec /usr/bin/badger run
 
 #bashio::log.info "Starting badger..."
