@@ -23,6 +23,7 @@ RUN GOOS=linux GOARCH=${GOLANG_ARCH} go build --ldflags '-extldflags "-static"' 
 
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-dockerfile
 FROM $BUILD_FROM
+RUN apk add --no-cache --virtual .build-deps file .build-deps bash gcc musl-dev openssl go
 ARG TEMPIO_VERSION
 ARG BUILD_ARCH
 
@@ -38,6 +39,5 @@ RUN chown root:root /etc/services.d/badger/* /usr/bin/badger
 RUN chmod 755 /etc/services.d/badger/* /usr/bin/badger
 
 # Debug
-RUN apk add file
 RUN file /usr/bin/badger
 RUN /usr/bin/badger --help
