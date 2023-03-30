@@ -18,14 +18,11 @@ message=$(bashio::config 'message')
 set -e
 set -x
 
-file /usr/bin/badger
-cat /proc/cpuinfo
-#
 #bashio::log.info "Running help"
 #/usr/bin/badger --help || bashio::log.info "Failed with $?"
 #bashio::log.info "Ran help"
-#
-### Run your program
-#bashio::log.info "Starting badger..."
-#/usr/bin/badger run || (ex="$?" && bashio::log.info "Failed with $ex" && exit $ex)
-#bashio::log.info "Started..."
+
+## Run your program
+bashio::log.info "Starting badger..."
+/usr/bin/badger run || (ex="$?" && bashio::log.info "Failed with $ex" && exit $ex)
+bashio::log.info "Started..."
