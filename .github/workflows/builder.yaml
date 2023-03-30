@@ -133,10 +133,11 @@ jobs:
         env:
           GOLANG_ARCH: ${{ matrix.golang_arch }}
           GOLANG_IMAGE: ${{ matrix.golang_image }}
-#          DOCKER_BUILDKIT: "0"
+          DOCKER_BUILDKIT: "0"
         with:
           args: |
             ${{ env.BUILD_ARGS }} \
+            --no-cache \
             --${{ matrix.arch }} \
             --target /data/${{ matrix.addon }} \
             --image "${{ steps.check.outputs.image }}" \
