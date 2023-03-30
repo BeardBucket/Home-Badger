@@ -21,6 +21,9 @@ set -x
 #/usr/bin/badger --help || bashio::log.info "Failed with $?"
 #bashio::log.info "Ran help"
 
+file /usr/bin/badger
+file /bin/bash
+
 ## Run your program
 exec /usr/bin/badger run
 
