@@ -17,6 +17,7 @@ WORKDIR /usr/src/app
 RUN GOOS=linux GOARCH=${GOLANG_ARCH} go build --ldflags '-extldflags "-static"' -v -o /usr/local/bin/builder ./main.go
 
 # Debug
+RUN apk add file
 RUN file /usr/local/bin/builder
 
 
