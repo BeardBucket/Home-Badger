@@ -1,4 +1,4 @@
-ENV GOLANG_IMAGE="golang:1-alpine"
+ARG GOLANG_IMAGE="golang:1-alpine"
 ARG BUILD_FROM="xxxxx"
 
 FROM ${GOLANG_IMAGE} AS bldr
