@@ -98,6 +98,7 @@ jobs:
           go-version: ${{ matrix.go }}
           check-latest: true
           cache-dependency-path: src/go.sum
+          path: "./${{ matrix.addon }}"
 
       - name: Get information
         id: info
