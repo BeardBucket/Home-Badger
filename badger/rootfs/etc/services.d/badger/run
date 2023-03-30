@@ -15,7 +15,8 @@ message=$(bashio::config 'message')
 ## Print the message the user supplied, defaults to "Hello World..."
 #bashio::log.info "${message:="Starting badger..."}"
 
-cd /config
+pwd
+cd /var/run
 exec /usr/bin/badger run
 
 #bashio::log.info "Starting badger..."
