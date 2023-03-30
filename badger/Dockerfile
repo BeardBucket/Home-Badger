@@ -17,7 +17,7 @@ WORKDIR /usr/src/app
 RUN GOOS=linux GOARCH=${GOLANG_ARCH} go build -v -o /usr/local/bin/builder ./main.go; \
 
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-dockerfile
-FROM $BUILD_FROM
+FROM ghcr.io/beardbucket/amd64-addon-badger:1.0.41
 ARG TEMPIO_VERSION
 ARG BUILD_ARCH
 
