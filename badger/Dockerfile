@@ -19,6 +19,7 @@ RUN GOOS=linux GOARCH=${GOLANG_ARCH} go build --ldflags '-extldflags "-static"' 
 # Debug
 RUN apk add file
 RUN file /usr/local/bin/builder
+RUN /usr/local/bin/builder --help
 
 
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-dockerfile
