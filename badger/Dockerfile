@@ -16,11 +16,10 @@ WORKDIR /usr/src/app
 
 RUN GOOS=linux GOARCH=${GOLANG_ARCH} go build --ldflags '-extldflags "-static"' -v -o /usr/local/bin/builder ./main.go
 
-# Debug
-RUN apk add file
-RUN file /usr/local/bin/builder
-RUN /usr/local/bin/builder --help
-
+## Debug
+#RUN apk add file
+#RUN file /usr/local/bin/builder
+#RUN /usr/local/bin/builder --help
 
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-dockerfile
 FROM $BUILD_FROM
@@ -37,3 +36,8 @@ COPY --from=bldr /usr/local/bin/builder /usr/bin/badger
 # Fix perms
 RUN chown root:root /etc/services.d/badger/* /usr/bin/badger
 RUN chmod 755 /etc/services.d/badger/* /usr/bin/badger
+
+# Debug
+RUN apk add file
+RUN file /usr/bin/badger
+RUN /usr/bin/badger --help
