@@ -1,5 +1,6 @@
 ENV GOLANG_IMAGE "golang:1-alpine"
-ENV BUILD_FROM "xxxxxx"
+ARG BUILD_FROM="xxxxx"
+ENV BUILD_FROM $BUILD_FROM
 
 FROM ${GOLANG_IMAGE} AS builder
 ARG BUILD_ARCH
@@ -18,7 +19,8 @@ RUN GOOS=linux GOARCH=${GOLANG_ARCH} go build -v -o /usr/local/bin/builder ./mai
 
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-dockerfile
 FROM ${BUILD_FROM}
-ARG TEMPIO_VERSION BUILD_ARCH
+ARG TEMPIO_VERSION
+ARG BUILD_ARCH
 
 # Execute during the build of the image
 RUN \
