@@ -19,6 +19,7 @@ set -e
 set -x
 
 file /usr/bin/badger
+cat /proc/cpuinfo
 
 bashio::log.info "Running help"
 /usr/bin/badger --help || bashio::log.info "Failed with $?"
