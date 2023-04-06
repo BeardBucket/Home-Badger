@@ -3,6 +3,7 @@ module github.com/BeardBucket/Home-Badger/src
 go 1.19
 
 require (
+	github.com/pawal/go-hass v0.0.0-20230221123149-b1b116a7432d
 	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/cobra v1.6.1
 	github.com/spf13/viper v1.15.0

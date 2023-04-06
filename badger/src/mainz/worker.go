@@ -2,6 +2,7 @@ package mainz
 
 import (
 	"errors"
+	"github.com/BeardBucket/Home-Badger/src/hasser"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -22,6 +23,7 @@ type Main interface {
 	onExit() error
 	onCycle() error
 	Vpr() *viper.Viper
+	FailIt(msg string, err error)
 }
 
 type MainWorker struct {
@@ -77,6 +79,12 @@ func (w MainWorker) Vpr() *viper.Viper {
 	return w.vpr
 }
 
+// FailIt gracefully exits the program due to a unrecoverable error of some kind
+func (w MainWorker) FailIt(msg string, err error) {
+	w.L().WithError(err).Error(msg)
+	w.notifyF(msg, err)
+}
+
 // onCycle should be called occasionally by the main thread
 func (w MainWorker) onCycle() error {
 	w.L().Debug("hai!")
@@ -86,12 +94,20 @@ func (w MainWorker) onCycle() error {
 // onRun should be called once to start the main process(es)
 func (w MainWorker) onRun() error {
 	w.L().Debug("runnnnnnnnnnn")
+	go func() {
+		ehass, _ := hasser.NewEventHass()
+		err := ehass.Test()
+		if err != nil {
+			w.FailIt("Problem creating EventHass", err)
+		}
+	}()
 	return nil
 }
 
 // onLateInit should be called once just before onRun() is called
 func (w MainWorker) onLateInit() error {
 	w.L().Debug("late init")
+
 	return nil
 }
 
