@@ -14,4 +14,5 @@ log_level=$(bashio::config 'log_level')
 bashio::log.debug "Setting log level to ${log_level:=info}"
 
 bashio::log.info "Service is starting..."
-cd /var/run && exec /usr/bin/badger run --level="${log_level:=info}" --addon-options="/data/options.json"
+set -e
+cd /var/run && /usr/bin/badger run --level="${log_level:=info}" --addon-options="/data/options.json"
