@@ -27,6 +27,8 @@ import (
 	"time"
 )
 
+var addonConfigFile string
+
 // runCmd represents the run command
 var runCmd = &cobra.Command{
 	Use:   "run",
@@ -49,7 +51,7 @@ var runCmd = &cobra.Command{
 		}()
 
 		// Run late inits
-		err := mainz.OnLateInit(cmd, args, notify, viper.GetViper())
+		err := mainz.OnLateInit(cmd, args, notify, viper.GetViper(), addonConfigFile)
 		if err != nil {
 			notify("Problem during late inits", err)
 		}
@@ -77,6 +79,7 @@ func init() {
 	// Set a default for a main function: Special case
 	viper.SetDefault("cycle.duration", 1*time.Second)
 	rootCmd.AddCommand(runCmd)
+	runCmd.PersistentFlags().StringVar(&addonConfigFile, "addon-options", "/data/options.json", "hass add-on options")
 
 	// Here you will define your flags and configuration settings.
 

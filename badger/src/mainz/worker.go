@@ -26,14 +26,15 @@ type Main interface {
 }
 
 type MainWorker struct {
-	vpr     *viper.Viper   // Config
-	cmd     *cobra.Command // Command that was run - should be "Run"
-	cmdArgs []string       // Any positional args
-	notifyF NotifyF        // Notify of a fatal error and exit
-	logger  *logrus.Logger // Primary Logger
+	vpr         *viper.Viper   // Config
+	cmd         *cobra.Command // Command that was run - should be "Run"
+	cmdArgs     []string       // Any positional args
+	notifyF     NotifyF        // Notify of a fatal error and exit
+	logger      *logrus.Logger // Primary Logger
+	optionsPath string         // Path to HASS Add-On options file (JSON)
 }
 
-func NewMainWorker(cmd *cobra.Command, args []string, notifyF NotifyF, vpr *viper.Viper) (*MainWorker, error) {
+func NewMainWorker(cmd *cobra.Command, args []string, notifyF NotifyF, vpr *viper.Viper, hassAddOnOptionsPath string) (*MainWorker, error) {
 	// Gotta have a non-nil viper
 	if vpr == nil {
 		return nil, ErrNoVprGiven
@@ -47,11 +48,12 @@ func NewMainWorker(cmd *cobra.Command, args []string, notifyF NotifyF, vpr *vipe
 	}
 
 	worker = MainWorker{
-		vpr:     vpr,
-		cmd:     cmd,
-		cmdArgs: args,
-		notifyF: notifyF,
-		logger:  logrus.New(),
+		vpr:         vpr,
+		cmd:         cmd,
+		cmdArgs:     args,
+		notifyF:     notifyF,
+		logger:      logrus.New(),
+		optionsPath: hassAddOnOptionsPath,
 	}
 
 	main = worker

@@ -7,16 +7,11 @@
 # Add your code here
 
 # Declare variables
-declare message
+declare log_level
 
 ## Get the 'message' key from the user config options.
 log_level=$(bashio::config 'log_level')
 bashio::log.debug "Setting log level to ${log_level:=info}"
 
 bashio::log.info "Service is starting..."
-cd /var/run && exec /usr/bin/badger run --level="${log_level:=info}"
-
-#bashio::log.info "Starting badger..."
-#/usr/bin/badger run || (ex="$?" && bashio::log.info "Failed with $ex" && exit $ex)
-#bashio::log.info "Started..."
-
+cd /var/run && exec /usr/bin/badger run --level="${log_level:=info}" --addon-options="/data/options.json"
