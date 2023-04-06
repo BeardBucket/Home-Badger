@@ -27,4 +27,4 @@ ingress: true
 ingress_stream: true
 panel_icon: mdi:text-box-outline
 startup: "services"
-boot: "auto"
+# boot: "auto"
