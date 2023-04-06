@@ -2,7 +2,6 @@ package mainz
 
 import (
 	"errors"
-	"fmt"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -80,24 +79,24 @@ func (w MainWorker) Vpr() *viper.Viper {
 
 // onCycle should be called occasionally by the main thread
 func (w MainWorker) onCycle() error {
-	fmt.Println("hai!")
+	w.L().Debug("hai!")
 	return nil
 }
 
 // onRun should be called once to start the main process(es)
 func (w MainWorker) onRun() error {
-	fmt.Println("runnnnnnnnnnn")
+	w.L().Debug("runnnnnnnnnnn")
 	return nil
 }
 
 // onLateInit should be called once just before onRun() is called
 func (w MainWorker) onLateInit() error {
-	fmt.Println("late init")
+	w.L().Debug("late init")
 	return nil
 }
 
 // onExit should be called when an early exit is required
 func (w MainWorker) onExit() error {
-	fmt.Println("cleanup")
+	w.L().Debug("cleanup")
 	return nil
 }

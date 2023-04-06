@@ -2,6 +2,7 @@ package mainz
 
 import (
 	"github.com/sirupsen/logrus"
+	"os"
 )
 
 func (w MainWorker) setupLogging() error {
@@ -27,6 +28,7 @@ func (w MainWorker) setupLogging() error {
 		return err
 	}
 	w.L().SetLevel(level)
+	w.L().Out = os.Stderr
 
 	return nil
 }
