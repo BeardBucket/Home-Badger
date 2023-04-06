@@ -38,7 +38,7 @@ var runCmd = &cobra.Command{
 
 		// Send SIGTERM so that we exit out. Log the problem too.
 		notify := func(msg string, err error) {
-			signal.Notify(onSIGTERM, syscall.SIGTERM)
+			onSIGTERM <- syscall.SIGTERM
 		}
 
 		// OnExit when all done - Called on interrupt
@@ -56,8 +56,11 @@ var runCmd = &cobra.Command{
 
 		// Main worker
 		go func() {
+			fmt.Println("Running main worker")
 			err := mainz.OnRun()
+			fmt.Println("Main worker exited")
 			if err != nil {
+				fmt.Println("Problem running main worker")
 				notify("Problem in main runner", err)
 			}
 		}()
