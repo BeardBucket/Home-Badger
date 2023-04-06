@@ -2,6 +2,6 @@ package mainz
 
 import "fmt"
 
-func Cleanup() {
+func OnExit() {
 	fmt.Println("cleanup")
 }

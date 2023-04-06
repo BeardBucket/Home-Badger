@@ -2,7 +2,7 @@ package mainz
 
 import "fmt"
 
-func Start() error {
+func OnRun() error {
 	fmt.Println("Running....")
 	return nil
 }

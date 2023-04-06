@@ -1,5 +1,5 @@
 package mainz
 
-func LateInits() error {
+func OnLateInit() error {
 	return nil
 }

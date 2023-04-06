@@ -30,33 +30,39 @@ import (
 // runCmd represents the run command
 var runCmd = &cobra.Command{
 	Use:   "run",
-	Short: "Start the daemon",
+	Short: "OnRun the daemon",
 	Run: func(cmd *cobra.Command, args []string) {
-		c := make(chan os.Signal)
-		signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+		// Exit channel
+		onSIGTERM := make(chan os.Signal)
+		signal.Notify(onSIGTERM, os.Interrupt, syscall.SIGTERM)
 
+		// Send SIGTERM so that we exit out. Log the problem too.
 		notify := func(msg string, err error) {
-			signal.Notify(c, os.Interrupt)
+			signal.Notify(onSIGTERM, syscall.SIGTERM)
 		}
 
+		// OnExit when all done - Called on interrupt
 		go func() {
-			<-c
-			mainz.Cleanup()
+			<-onSIGTERM
+			mainz.OnExit()
 			os.Exit(1)
 		}()
 
-		err := mainz.LateInits()
+		// Run late inits
+		err := mainz.OnLateInit()
 		if err != nil {
 			notify("Problem during late inits", err)
 		}
 
+		// Main worker
 		go func() {
-			err := mainz.Start()
+			err := mainz.OnRun()
 			if err != nil {
 				notify("Problem in main runner", err)
 			}
 		}()
 
+		// Sleep main thread forever
 		for {
 			fmt.Println("sleeping...")
 			time.Sleep(30 * time.Second)
