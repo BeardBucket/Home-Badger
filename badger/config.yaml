@@ -18,14 +18,14 @@ options:
 schema:
   log_level: list(trace|debug|info|notice|warning|error|fatal)?
 image: "ghcr.io/beardbucket/{arch}-addon-badger"
-ports:
-  80/tcp: 80
-ports_description:
-  80/tcp: Web interface (Not required for Ingress)
+#ports:
+#  80/tcp: 80
+#ports_description:
+#  80/tcp: Web interface (Not required for Ingress)
 homeassistant_api: true
 auth_api: true
-ingress: true
-ingress_stream: true
+#ingress: true
+#ingress_stream: true
 panel_icon: mdi:text-box-outline
 startup: "services"
 # boot: "auto"
