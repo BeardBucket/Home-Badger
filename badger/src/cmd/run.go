@@ -51,7 +51,7 @@ var runCmd = &cobra.Command{
 		}()
 
 		// Run late inits
-		err := mainz.OnLateInit(cmd, args, notify, viper.GetViper(), addonConfigFile)
+		err := mainz.OnLateInit(cmd, args, notify, viper.GetViper(), addonConfigFile, logLevel)
 		if err != nil {
 			notify("Problem during late inits", err)
 		}

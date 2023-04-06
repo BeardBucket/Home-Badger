@@ -10,8 +10,8 @@ type (
 )
 
 // OnLateInit is called after basic startup
-func OnLateInit(cmd *cobra.Command, args []string, notifyF NotifyF, vpr *viper.Viper, hassAddOnOptionsPath string) error {
-	worker, err := NewMainWorker(cmd, args, notifyF, vpr, hassAddOnOptionsPath)
+func OnLateInit(cmd *cobra.Command, args []string, notifyF NotifyF, vpr *viper.Viper, hassAddOnOptionsPath string, logLevel string) error {
+	worker, err := NewMainWorker(cmd, args, notifyF, vpr, hassAddOnOptionsPath, logLevel)
 	if err != nil {
 		return err
 	}

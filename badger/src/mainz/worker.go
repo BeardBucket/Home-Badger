@@ -26,15 +26,16 @@ type Main interface {
 }
 
 type MainWorker struct {
-	vpr         *viper.Viper   // Config
-	cmd         *cobra.Command // Command that was run - should be "Run"
-	cmdArgs     []string       // Any positional args
-	notifyF     NotifyF        // Notify of a fatal error and exit
-	logger      *logrus.Logger // Primary Logger
-	optionsPath string         // Path to HASS Add-On options file (JSON)
+	vpr          *viper.Viper   // Config
+	cmd          *cobra.Command // Command that was run - should be "Run"
+	cmdArgs      []string       // Any positional args
+	notifyF      NotifyF        // Notify of a fatal error and exit
+	logger       *logrus.Logger // Primary Logger
+	logLevelText string         // Text log level passed in
+	optionsPath  string         // Path to HASS Add-On options file (JSON)
 }
 
-func NewMainWorker(cmd *cobra.Command, args []string, notifyF NotifyF, vpr *viper.Viper, hassAddOnOptionsPath string) (*MainWorker, error) {
+func NewMainWorker(cmd *cobra.Command, args []string, notifyF NotifyF, vpr *viper.Viper, hassAddOnOptionsPath string, logLevel string) (*MainWorker, error) {
 	// Gotta have a non-nil viper
 	if vpr == nil {
 		return nil, ErrNoVprGiven
@@ -46,14 +47,22 @@ func NewMainWorker(cmd *cobra.Command, args []string, notifyF NotifyF, vpr *vipe
 	if main != nil {
 		return nil, ErrMainWorkerDefined
 	}
+	if logLevel == "" {
+		logLevel = "info"
+	}
 
 	worker = MainWorker{
-		vpr:         vpr,
-		cmd:         cmd,
-		cmdArgs:     args,
-		notifyF:     notifyF,
-		logger:      logrus.New(),
-		optionsPath: hassAddOnOptionsPath,
+		vpr:          vpr,
+		cmd:          cmd,
+		cmdArgs:      args,
+		notifyF:      notifyF,
+		logger:       logrus.New(),
+		optionsPath:  hassAddOnOptionsPath,
+		logLevelText: logLevel,
+	}
+	err := worker.setupLogging()
+	if err != nil {
+		return nil, err
 	}
 
 	main = worker
