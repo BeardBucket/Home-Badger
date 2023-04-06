@@ -1,6 +1,6 @@
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-config
 name: Badger add-on
-version: "1.0.73"
+version: "1.0.74"
 slug: badger
 description: Badger add-on adds badge scan support
 url: "https://github.com/BeardBucket/Home-Badger/tree/main/badger"
@@ -18,7 +18,7 @@ schema:
   log_level: list(trace|debug|info|notice|warning|error|fatal)?
 image: "ghcr.io/beardbucket/{arch}-addon-badger"
 ports:
-  80/tcp: null
+  80/tcp: 80
 ports_description:
   80/tcp: Web interface (Not required for Ingress)
 homeassistant_api: true
@@ -26,5 +26,5 @@ auth_api: true
 ingress: true
 ingress_stream: true
 panel_icon: mdi:text-box-outline
-startup: "before"
+startup: "services"
 boot: "auto"
