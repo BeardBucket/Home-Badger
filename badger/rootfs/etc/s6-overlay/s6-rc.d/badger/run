@@ -16,8 +16,7 @@ message=$(bashio::config 'message')
 #bashio::log.info "${message:="Starting badger..."}"
 
 pwd
-cd /var/run
-exec /usr/bin/badger run
+cd /var/run && exec /usr/bin/badger run
 
 #bashio::log.info "Starting badger..."
 #/usr/bin/badger run || (ex="$?" && bashio::log.info "Failed with $ex" && exit $ex)
