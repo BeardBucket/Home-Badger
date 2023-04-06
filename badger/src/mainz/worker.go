@@ -71,16 +71,19 @@ func (w MainWorker) Vpr() *viper.Viper {
 
 // onCycle should be called occasionally by the main thread
 func (w MainWorker) onCycle() error {
+	fmt.Println("hai!")
 	return nil
 }
 
 // onRun should be called once to start the main process(es)
 func (w MainWorker) onRun() error {
+	fmt.Println("runnnnnnnnnnn")
 	return nil
 }
 
 // onLateInit should be called once just before onRun() is called
 func (w MainWorker) onLateInit() error {
+	fmt.Println("late init")
 	return nil
 }
 
