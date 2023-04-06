@@ -19,9 +19,12 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 
 import (
 	"fmt"
-	"time"
-
+	"github.com/BeardBucket/Home-Badger/src/mainz"
 	"github.com/spf13/cobra"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 )
 
 // runCmd represents the run command
@@ -29,8 +32,25 @@ var runCmd = &cobra.Command{
 	Use:   "run",
 	Short: "Start the daemon",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("run called")
-		time.Sleep(60 * time.Second)
+		c := make(chan os.Signal)
+		signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+		go func() {
+			<-c
+			mainz.Cleanup()
+			os.Exit(1)
+		}()
+
+		go func() {
+			err := mainz.Start()
+			if err != nil {
+				signal.Notify(c, os.Interrupt)
+			}
+		}()
+
+		for {
+			fmt.Println("sleeping...")
+			time.Sleep(30 * time.Second)
+		}
 	},
 }
 
