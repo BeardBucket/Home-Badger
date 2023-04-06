@@ -3,5 +3,13 @@ package mainz
 import "fmt"
 
 func OnExit() {
-	fmt.Println("cleanup")
+	err := main.onExit()
+	if err != nil {
+		_, err := fmt.Printf("Problem running onExit: %e\n", err)
+		if err != nil {
+			fmt.Println("Big issues!")
+			return
+		}
+		return
+	}
 }

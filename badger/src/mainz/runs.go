@@ -1,8 +1,6 @@
 package mainz
 
-import "fmt"
-
+// OnRun starts the main worker thread
 func OnRun() error {
-	fmt.Println("Running....")
-	return nil
+	return main.onRun()
 }
