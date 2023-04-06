@@ -15,7 +15,8 @@ bashio::log.debug "Setting log level to ${log_level:=info}"
 
 # FIXME: Remove dis - very bad for security
 cat /data/options.json
+ls -alh /data
 
 bashio::log.info "Service is starting..."
 set -e
-cd /var/run && exec /usr/bin/badger run --level="${log_level:=info}" --addon-options="/data/options.json"
+cd /var/run && /usr/bin/badger run --level="${log_level:=info}" --addon-options="/data/options.json"
