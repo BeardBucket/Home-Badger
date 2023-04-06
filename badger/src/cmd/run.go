@@ -34,16 +34,26 @@ var runCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		c := make(chan os.Signal)
 		signal.Notify(c, os.Interrupt, syscall.SIGTERM)
+
+		notify := func(msg string, err error) {
+			signal.Notify(c, os.Interrupt)
+		}
+
 		go func() {
 			<-c
 			mainz.Cleanup()
 			os.Exit(1)
 		}()
 
+		err := mainz.LateInits()
+		if err != nil {
+			notify("Problem during late inits", err)
+		}
+
 		go func() {
 			err := mainz.Start()
 			if err != nil {
-				signal.Notify(c, os.Interrupt)
+				notify("Problem in main runner", err)
 			}
 		}()
 
