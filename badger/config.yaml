@@ -1,3 +1,4 @@
+# https://home-assistant-china.github.io/developers/hassio/addon_config/
 name: Badger add-on
 version: "1.0.76"
 slug: badger
@@ -18,7 +19,7 @@ schema:
   log_level: list(trace|debug|info|notice|warning|error|fatal)?
 image: "ghcr.io/beardbucket/{arch}-addon-badger"
 ports:
-  80/tcp: none
+  80/tcp: 80
 ports_description:
   80/tcp: Web interface (Not required for Ingress)
 homeassistant_api: true
@@ -29,4 +30,3 @@ panel_icon: mdi:text-box-outline
 startup: "services"
 # boot: "auto"
 timeout: 60
-# https://home-assistant-china.github.io/developers/hassio/addon_config/
