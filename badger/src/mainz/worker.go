@@ -27,16 +27,17 @@ type Main interface {
 }
 
 type MainWorker struct {
-	vpr          *viper.Viper   // Config
-	cmd          *cobra.Command // Command that was run - should be "Run"
-	cmdArgs      []string       // Any positional args
-	notifyF      NotifyF        // Notify of a fatal error and exit
-	logger       *logrus.Logger // Primary Logger
-	logLevelText string         // Text log level passed in
-	optionsPath  string         // Path to HASS Add-On options file (JSON)
+	vpr           *viper.Viper   // Config
+	cmd           *cobra.Command // Command that was run - should be "Run"
+	cmdArgs       []string       // Any positional args
+	notifyF       NotifyF        // Notify of a fatal error and exit
+	logger        *logrus.Logger // Primary Logger
+	logLevelText  string         // Text log level passed in
+	optionsPath   string         // Path to HASS Add-On options file (JSON)
+	webListenPort int            // What port our webserver should listen on
 }
 
-func NewMainWorker(cmd *cobra.Command, args []string, notifyF NotifyF, vpr *viper.Viper, hassAddOnOptionsPath string, logLevel string) (*MainWorker, error) {
+func NewMainWorker(cmd *cobra.Command, args []string, notifyF NotifyF, vpr *viper.Viper) (*MainWorker, error) {
 	// Gotta have a non-nil viper
 	if vpr == nil {
 		return nil, ErrNoVprGiven
@@ -48,21 +49,36 @@ func NewMainWorker(cmd *cobra.Command, args []string, notifyF NotifyF, vpr *vipe
 	if main != nil {
 		return nil, ErrMainWorkerDefined
 	}
+
+	logLevel, err := cmd.Flags().GetString("level")
+	if err != nil {
+		return nil, err
+	}
 	if logLevel == "" {
 		logLevel = "info"
 	}
 
-	worker = MainWorker{
-		vpr:          vpr,
-		cmd:          cmd,
-		cmdArgs:      args,
-		notifyF:      notifyF,
-		logger:       logrus.New(),
-		optionsPath:  hassAddOnOptionsPath,
-		logLevelText: logLevel,
-	}
-	err := worker.setupLogging()
+	hassAddOnOptionsPath, err := cmd.Flags().GetString("addon-options")
 	if err != nil {
+		return nil, err
+	}
+
+	listenPort, err := cmd.Flags().GetInt("port")
+	if err != nil {
+		return nil, err
+	}
+
+	worker = MainWorker{
+		vpr:           vpr,
+		cmd:           cmd,
+		cmdArgs:       args,
+		notifyF:       notifyF,
+		logger:        logrus.New(),
+		optionsPath:   hassAddOnOptionsPath,
+		logLevelText:  logLevel,
+		webListenPort: listenPort,
+	}
+	if err := worker.setupLogging(); err != nil {
 		return nil, err
 	}
 

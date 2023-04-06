@@ -28,7 +28,7 @@ func (w MainWorker) setupLogging() error {
 		return err
 	}
 	w.L().SetLevel(level)
-	w.L().Out = os.Stderr
+	w.L().Out = os.Stdout
 
 	return nil
 }
