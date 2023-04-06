@@ -10,13 +10,12 @@
 declare message
 
 ## Get the 'message' key from the user config options.
-message=$(bashio::config 'message')
+log_level=$(bashio::config 'log_level')
 
 ## Print the message the user supplied, defaults to "Hello World..."
 #bashio::log.info "${message:="Starting badger..."}"
 
-pwd
-cd /var/run && exec /usr/bin/badger run
+cd /var/run && exec /usr/bin/badger run --level="${log_level:=info}"
 
 #bashio::log.info "Starting badger..."
 #/usr/bin/badger run || (ex="$?" && bashio::log.info "Failed with $ex" && exit $ex)

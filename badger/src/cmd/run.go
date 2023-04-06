@@ -18,9 +18,9 @@ along with this program. If not, see <http://www.gnu.org/licenses/>.
 */
 
 import (
-	"fmt"
 	"github.com/BeardBucket/Home-Badger/src/mainz"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 	"os"
 	"os/signal"
 	"syscall"
@@ -36,7 +36,7 @@ var runCmd = &cobra.Command{
 		onSIGTERM := make(chan os.Signal)
 		signal.Notify(onSIGTERM, os.Interrupt, syscall.SIGTERM)
 
-		// Send SIGTERM so that we exit out. Log the problem too.
+		// Send SIGTERM so that we exit out. Print the problem too.
 		notify := func(msg string, err error) {
 			onSIGTERM <- syscall.SIGTERM
 		}
@@ -49,31 +49,33 @@ var runCmd = &cobra.Command{
 		}()
 
 		// Run late inits
-		err := mainz.OnLateInit()
+		err := mainz.OnLateInit(cmd, args, notify, viper.GetViper())
 		if err != nil {
 			notify("Problem during late inits", err)
 		}
 
 		// Main worker
 		go func() {
-			fmt.Println("Running main worker")
 			err := mainz.OnRun()
-			fmt.Println("Main worker exited")
 			if err != nil {
-				fmt.Println("Problem running main worker")
 				notify("Problem in main runner", err)
 			}
 		}()
 
 		// Sleep main thread forever
 		for {
-			fmt.Println("sleeping...")
-			time.Sleep(30 * time.Second)
+			err := mainz.OnCycle()
+			if err != nil {
+				notify("Problem in cycle runner", err)
+			}
+			time.Sleep(mainz.GetMain().Vpr().GetDuration("cycle.duration"))
 		}
 	},
 }
 
 func init() {
+	// Set a default for a main function: Special case
+	viper.SetDefault("cycle.duration", 1*time.Second)
 	rootCmd.AddCommand(runCmd)
 
 	// Here you will define your flags and configuration settings.
