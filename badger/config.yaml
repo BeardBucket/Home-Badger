@@ -1,6 +1,6 @@
 # https://home-assistant-china.github.io/developers/hassio/addon_config/
 name: Badger add-on
-version: "1.0.81"
+version: "1.0.82"
 slug: badger
 description: Badger add-on adds badge scan support
 url: "https://github.com/BeardBucket/Home-Badger/tree/main/badger"
