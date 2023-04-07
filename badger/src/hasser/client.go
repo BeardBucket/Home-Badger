@@ -1,7 +1,7 @@
 package hasser
 
 import (
-	"fmt"
+	"github.com/BeardBucket/Home-Badger/src/mainz"
 	"github.com/pawal/go-hass"
 )
 
@@ -10,10 +10,13 @@ type EventHass interface {
 }
 
 type EventHassImpl struct {
+	w mainz.Main
 }
 
-func NewEventHass() (EventHass, error) {
-	e := EventHassImpl{}
+func NewEventHass(w mainz.Main) (EventHass, error) {
+	e := EventHassImpl{
+		w: w,
+	}
 
 	return &e, nil
 }
@@ -22,21 +25,24 @@ func (e EventHassImpl) Test() error {
 	h := hass.NewAccess("http://localhost:8123", "")
 	err := h.CheckAPI()
 	if err != nil {
-		panic(err)
+		return err
 	}
-	fmt.Println("API ok")
+	e.w.L().Info("API ok")
 
 	// Get the state of a device
 	s, err := h.GetState("group.kitchen")
 	if err != nil {
-		panic(err)
+		return err
 	}
-	fmt.Printf("Group kitchen state: %s\n", s.State)
+	e.w.L().Info("Group kitchen state: %s\n", s.State)
 
 	// Create and interact with a device object
 	dev, _ := h.GetDevice(s)
-	fmt.Println("DEV: " + dev.EntityID())
-	dev.On()
+	e.w.L().Info("DEV: " + dev.EntityID())
+	err = dev.On()
+	if err != nil {
+		return err
+	}
 
 	return nil
 }

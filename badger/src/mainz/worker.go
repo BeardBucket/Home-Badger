@@ -24,6 +24,7 @@ type Main interface {
 	onCycle() error
 	Vpr() *viper.Viper
 	FailIt(msg string, err error)
+	L() *logrus.Logger
 }
 
 type MainWorker struct {
@@ -111,7 +112,7 @@ func (w MainWorker) onCycle() error {
 func (w MainWorker) onRun() error {
 	w.L().Debug("runnnnnnnnnnn")
 	go func() {
-		ehass, _ := hasser.NewEventHass()
+		ehass, _ := hasser.NewEventHass(w)
 		err := ehass.Test()
 		if err != nil {
 			w.FailIt("Problem creating EventHass", err)
