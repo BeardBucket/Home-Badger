@@ -7,8 +7,9 @@ import (
 )
 
 type HassImpl struct {
-	w   mzpub.Main
-	evt hzpub.EventHass
+	w       mzpub.Main
+	evt     hzpub.EventHass
+	hAccess *hass.Access
 }
 
 type EventHassImpl struct {
@@ -16,10 +17,17 @@ type EventHassImpl struct {
 }
 
 func (h HassImpl) NewEventHass() (hzpub.EventHass, error) {
+	if h.evt != nil {
+		return nil, hzpub.ErrEventHassExists
+	}
 	e := EventHassImpl{
 		HassImpl: h,
 	}
 	h.evt = &e
+	if err := e.CreateAccess(); err != nil {
+		h.evt = nil // We don't exist anymore
+		return nil, err
+	}
 	return &e, nil
 }
 
@@ -34,6 +42,7 @@ func NewHass(w mzpub.Main) (hzpub.Hass, error) {
 	h := HassImpl{
 		w: w,
 	}
+	// Create all subtypes
 	if _, err := h.NewEventHass(); err != nil {
 		return nil, err
 	}

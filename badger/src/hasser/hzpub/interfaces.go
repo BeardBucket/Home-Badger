@@ -1,9 +1,14 @@
 package hzpub
 
-import "github.com/BeardBucket/Home-Badger/src/mainz/mzpub"
+import (
+	"github.com/BeardBucket/Home-Badger/src/mainz/mzpub"
+	"github.com/pawal/go-hass"
+)
 
 type EventHass interface {
 	Hass
+	CreateAccess() error
+	Access() (*hass.Access, error)
 }
 
 type Hass interface {
