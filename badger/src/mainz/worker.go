@@ -4,6 +4,7 @@ import (
 	"errors"
 	"github.com/BeardBucket/Home-Badger/src/hasser"
 	"github.com/BeardBucket/Home-Badger/src/mainz/mzpub"
+	"github.com/eko/gocache/lib/v4/cache"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -19,14 +20,15 @@ var main mzpub.Main
 var worker MainWorker
 
 type MainWorker struct {
-	vpr           *viper.Viper   // Config
-	cmd           *cobra.Command // Command that was run - should be "Run"
-	cmdArgs       []string       // Any positional args
-	notifyF       NotifyF        // Notify of a fatal error and exit
-	logger        *logrus.Logger // Primary Logger
-	logLevelText  string         // Text log level passed in
-	optionsPath   string         // Path to HASS Add-On options file (JSON)
-	webListenPort int            // What port our webserver should listen on
+	vpr           *viper.Viper         // Config
+	cmd           *cobra.Command       // Command that was run - should be "Run"
+	cmdArgs       []string             // Any positional args
+	notifyF       NotifyF              // Notify of a fatal error and exit
+	logger        *logrus.Logger       // Primary Logger
+	logLevelText  string               // Text log level passed in
+	optionsPath   string               // Path to HASS Add-On options file (JSON)
+	webListenPort int                  // What port our webserver should listen on
+	cache         *cache.Cache[string] // Main cache
 }
 
 func NewMainWorker(cmd *cobra.Command, args []string, notifyF NotifyF, vpr *viper.Viper) (*MainWorker, error) {
@@ -109,13 +111,6 @@ func (w MainWorker) OnRun() error {
 			w.FailIt("Problem creating EventHass", err)
 		}
 	}()
-	return nil
-}
-
-// OnLateInit should be called once just before OnRun() is called
-func (w MainWorker) OnLateInit() error {
-	w.L().Debug("late init")
-
 	return nil
 }
 
