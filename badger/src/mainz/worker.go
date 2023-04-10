@@ -105,10 +105,10 @@ func (w MainWorker) OnCycle() error {
 func (w MainWorker) OnRun() error {
 	w.L().Debug("runnnnnnnnnnn")
 	go func() {
-		ehass, _ := hasser.NewEventHass(w)
-		err := ehass.TestingF()
+		hass, _ := hasser.NewHass(w)
+		err := hass.TestingF()
 		if err != nil {
-			w.FailIt("Problem creating EventHass", err)
+			w.FailIt("Problem creating Hass", err)
 		}
 	}()
 	return nil

@@ -6,37 +6,59 @@ import (
 	"github.com/pawal/go-hass"
 )
 
-type EventHassImpl struct {
-	w mzpub.Main
+type HassImpl struct {
+	w   mzpub.Main
+	evt hzpub.EventHass
 }
 
-func NewEventHass(w mzpub.Main) (hzpub.EventHass, error) {
-	e := EventHassImpl{
-		w: w,
-	}
+type EventHassImpl struct {
+	HassImpl
+}
 
+func (h HassImpl) NewEventHass() (hzpub.EventHass, error) {
+	e := EventHassImpl{
+		HassImpl: h,
+	}
+	h.evt = &e
 	return &e, nil
 }
 
+func (h HassImpl) Evt() hzpub.EventHass {
+	return h.evt
+}
+func (h HassImpl) Main() mzpub.Main {
+	return h.w
+}
+
+func NewHass(w mzpub.Main) (hzpub.Hass, error) {
+	h := HassImpl{
+		w: w,
+	}
+	if _, err := h.NewEventHass(); err != nil {
+		return nil, err
+	}
+	return &h, nil
+}
+
 // TestingF runs a quick, dev check - not for prod
-func (e EventHassImpl) TestingF() error { // TODO: Remove this
-	h := hass.NewAccess("http://localhost:8123", "")
-	err := h.CheckAPI()
+func (h HassImpl) TestingF() error { // TODO: Remove this
+	a := hass.NewAccess("http://localhost:8123", "")
+	err := a.CheckAPI()
 	if err != nil {
 		return err
 	}
-	e.w.L().Info("API ok")
+	h.w.L().Info("API ok")
 
 	// Get the state of a device
-	s, err := h.GetState("group.kitchen")
+	s, err := a.GetState("group.kitchen")
 	if err != nil {
 		return err
 	}
-	e.w.L().Info("Group kitchen state: %s\n", s.State)
+	h.w.L().Info("Group kitchen state: %s\n", s.State)
 
 	// Create and interact with a device object
-	dev, _ := h.GetDevice(s)
-	e.w.L().Info("DEV: " + dev.EntityID())
+	dev, _ := a.GetDevice(s)
+	h.w.L().Info("DEV: " + dev.EntityID())
 	err = dev.On()
 	if err != nil {
 		return err
