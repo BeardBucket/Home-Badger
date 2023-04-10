@@ -1,19 +1,16 @@
 package hasser
 
 import (
+	"github.com/BeardBucket/Home-Badger/src/hasser/hzpub"
 	"github.com/BeardBucket/Home-Badger/src/mainz/mzpub"
 	"github.com/pawal/go-hass"
 )
-
-type EventHass interface {
-	TestingF() error
-}
 
 type EventHassImpl struct {
 	w mzpub.Main
 }
 
-func NewEventHass(w mzpub.Main) (EventHass, error) {
+func NewEventHass(w mzpub.Main) (hzpub.EventHass, error) {
 	e := EventHassImpl{
 		w: w,
 	}
