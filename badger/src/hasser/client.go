@@ -1,7 +1,7 @@
 package hasser
 
 import (
-	"github.com/BeardBucket/Home-Badger/src/mainz"
+	"github.com/BeardBucket/Home-Badger/src/mainz/mzpub"
 	"github.com/pawal/go-hass"
 )
 
@@ -10,10 +10,10 @@ type EventHass interface {
 }
 
 type EventHassImpl struct {
-	w mainz.Main
+	w mzpub.Main
 }
 
-func NewEventHass(w mainz.Main) (EventHass, error) {
+func NewEventHass(w mzpub.Main) (EventHass, error) {
 	e := EventHassImpl{
 		w: w,
 	}

@@ -3,6 +3,7 @@ package mainz
 import (
 	"errors"
 	"github.com/BeardBucket/Home-Badger/src/hasser"
+	"github.com/BeardBucket/Home-Badger/src/mainz/mzpub"
 	"github.com/sirupsen/logrus"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
@@ -14,18 +15,8 @@ var (
 	ErrMainWorkerDefined = errors.New("main (worker) already defined")
 )
 
-var main Main
+var main mzpub.Main
 var worker MainWorker
-
-type Main interface {
-	onLateInit() error
-	onRun() error
-	onExit() error
-	onCycle() error
-	Vpr() *viper.Viper
-	FailIt(msg string, err error)
-	L() *logrus.Logger
-}
 
 type MainWorker struct {
 	vpr           *viper.Viper   // Config
@@ -88,7 +79,7 @@ func NewMainWorker(cmd *cobra.Command, args []string, notifyF NotifyF, vpr *vipe
 	return &worker, nil
 }
 
-func GetMain() Main {
+func GetMain() mzpub.Main {
 	return main
 }
 
@@ -102,14 +93,14 @@ func (w MainWorker) FailIt(msg string, err error) {
 	w.notifyF(msg, err)
 }
 
-// onCycle should be called occasionally by the main thread
-func (w MainWorker) onCycle() error {
+// OnCycle should be called occasionally by the main thread
+func (w MainWorker) OnCycle() error {
 	w.L().Debug("hai!")
 	return nil
 }
 
-// onRun should be called once to start the main process(es)
-func (w MainWorker) onRun() error {
+// OnRun should be called once to start the main process(es)
+func (w MainWorker) OnRun() error {
 	w.L().Debug("runnnnnnnnnnn")
 	go func() {
 		ehass, _ := hasser.NewEventHass(w)
@@ -121,15 +112,15 @@ func (w MainWorker) onRun() error {
 	return nil
 }
 
-// onLateInit should be called once just before onRun() is called
-func (w MainWorker) onLateInit() error {
+// OnLateInit should be called once just before OnRun() is called
+func (w MainWorker) OnLateInit() error {
 	w.L().Debug("late init")
 
 	return nil
 }
 
-// onExit should be called when an early exit is required
-func (w MainWorker) onExit() error {
+// OnExit should be called when an early exit is required
+func (w MainWorker) OnExit() error {
 	w.L().Debug("cleanup")
 	return nil
 }

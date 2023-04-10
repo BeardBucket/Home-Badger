@@ -16,7 +16,7 @@ func OnLateInit(cmd *cobra.Command, args []string, notifyF NotifyF, vpr *viper.V
 		return err
 	}
 	main = worker
-	err = main.onLateInit()
+	err = main.OnLateInit()
 	if err != nil {
 		return err
 	}

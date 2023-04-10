@@ -3,9 +3,9 @@ package mainz
 import "fmt"
 
 func OnExit() {
-	err := main.onExit()
+	err := main.OnExit()
 	if err != nil {
-		_, err := fmt.Printf("Problem running onExit: %e\n", err)
+		_, err := fmt.Printf("Problem running OnExit: %e\n", err)
 		if err != nil {
 			fmt.Println("Big issues!")
 			return
