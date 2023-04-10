@@ -6,7 +6,7 @@ import (
 )
 
 type EventHass interface {
-	Test() error
+	TestingF() error
 }
 
 type EventHassImpl struct {
@@ -21,7 +21,8 @@ func NewEventHass(w mainz.Main) (EventHass, error) {
 	return &e, nil
 }
 
-func (e EventHassImpl) Test() error {
+// TestingF runs a quick, dev check - not for prod
+func (e EventHassImpl) TestingF() error { // TODO: Remove this
 	h := hass.NewAccess("http://localhost:8123", "")
 	err := h.CheckAPI()
 	if err != nil {

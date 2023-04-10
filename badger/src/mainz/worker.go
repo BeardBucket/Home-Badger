@@ -113,7 +113,7 @@ func (w MainWorker) onRun() error {
 	w.L().Debug("runnnnnnnnnnn")
 	go func() {
 		ehass, _ := hasser.NewEventHass(w)
-		err := ehass.Test()
+		err := ehass.TestingF()
 		if err != nil {
 			w.FailIt("Problem creating EventHass", err)
 		}
