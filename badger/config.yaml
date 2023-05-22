@@ -1,6 +1,6 @@
 # https://home-assistant-china.github.io/developers/hassio/addon_config/
 name: Badger add-on
-version: "1.0.92"
+version: "1.0.93"
 slug: badger
 description: Badger add-on adds badge scan support
 url: "https://github.com/BeardBucket/Home-Badger/tree/main/badger"
@@ -19,9 +19,9 @@ schema:
   log_level: list(trace|debug|info|notice|warning|error|fatal)?
 image: "ghcr.io/beardbucket/{arch}-addon-badger"
 ports:
-  80/tcp: 80
+  3333/tcp: 3333
 ports_description:
-  80/tcp: Web interface (Not required for Ingress)
+  3333/tcp: Web interface (Not required for Ingress)
 homeassistant_api: true
 auth_api: true
 ingress: true
