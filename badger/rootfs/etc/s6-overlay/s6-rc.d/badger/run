@@ -20,5 +20,9 @@ ls -alh /data
 
 bashio::log.info "Service is starting..."
 set -e
-cd /var/run && /usr/bin/badger run --level="${log_level:=info}" --addon-options="/data/options.json"
-exit 0
+pushd /var/run
+/usr/bin/badger run --level="${log_level:=info}" --addon-options="/data/options.json"
+EC="$?"
+popd
+
+exit $EC
