@@ -2,16 +2,17 @@ module github.com/BeardBucket/Home-Badger/src
 
 go 1.19
 
-//replace github.com/pawal/go-hass => ../../../go-hass
-replace github.com/pawal/go-hass => github.com/BeardBucket/go-hass v0.0.0-20230523130704-4c80c20ba8df
+replace github.com/pawal/go-hass => ../../../go-hass
+
+//replace github.com/pawal/go-hass => github.com/BeardBucket/go-hass v0.0.0-20230523130704-4c80c20ba8df
 
 require (
 	github.com/dgraph-io/ristretto v0.1.1
 	github.com/eko/gocache/lib/v4 v4.1.3
 	github.com/eko/gocache/store/ristretto/v4 v4.1.2
 	github.com/pawal/go-hass v0.0.0-20230221123149-b1b116a7432d
-	github.com/sirupsen/logrus v1.9.0
-	github.com/spf13/cobra v1.6.1
+	github.com/sirupsen/logrus v1.9.2
+	github.com/spf13/cobra v1.7.0
 	github.com/spf13/viper v1.15.0
 )
 
@@ -24,7 +25,7 @@ require (
 	github.com/golang/mock v1.6.0 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
-	github.com/inconshreveable/mousetrap v1.0.1 // indirect
+	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.1 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
