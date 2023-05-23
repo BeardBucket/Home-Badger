@@ -23,7 +23,7 @@ RUN GOOS=linux GOARCH=${GOLANG_ARCH} go build --ldflags '-extldflags "-static"' 
 
 # https://developers.home-assistant.io/docs/add-ons/configuration#add-on-dockerfile
 FROM $BUILD_FROM
-RUN apk add --no-cache --virtual .build-deps file .build-deps bash gcc musl-dev openssl go
+RUN apk add --no-cache --virtual .build-deps file .build-deps bash gcc musl-dev openssl go gcompat atop rsync musl
 ARG TEMPIO_VERSION
 ARG BUILD_ARCH
 
