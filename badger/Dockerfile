@@ -16,6 +16,11 @@ WORKDIR /usr/src/app
 
 RUN GOOS=linux GOARCH=${GOLANG_ARCH} go build -v -o /usr/local/bin/builder ./main.go
 
+# Some info
+RUN echo "File info" && ls -alh /usr/local/bin/builder
+RUN echo "LDD" && ldd /usr/local/bin/builder
+RUN echo "Hash" && sha512 /usr/local/bin/builder
+
 ## Debug
 #RUN apk add file
 #RUN file /usr/local/bin/builder
