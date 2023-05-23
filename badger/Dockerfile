@@ -14,7 +14,7 @@ COPY src/ /usr/src/app
 
 WORKDIR /usr/src/app
 
-RUN GOOS=linux GOARCH=${GOLANG_ARCH} go build --ldflags '-extldflags "-static"' -v -o /usr/local/bin/builder ./main.go
+RUN GOOS=linux GOARCH=${GOLANG_ARCH} go build --ldflags '-no-pie -extldflags "-static"' -v -o /usr/local/bin/builder ./main.go
 
 ## Debug
 #RUN apk add file
