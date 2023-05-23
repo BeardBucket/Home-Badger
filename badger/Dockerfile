@@ -5,6 +5,8 @@ FROM $GOLANG_IMAGE AS bldr
 ARG BUILD_ARCH
 ENV GOLANG_ARCH ""
 
+RUN apk add --no-cache --virtual .build-deps file .build-deps bash gcc musl-dev openssl go gcompat atop rsync musl
+
 RUN mkdir -p WORKDIR /usr/src/app
 WORKDIR /usr/src/app
 COPY src/go.mod src/go.sum ./
@@ -14,7 +16,7 @@ COPY src/ /usr/src/app
 
 WORKDIR /usr/src/app
 
-RUN GOOS=linux GOARCH=${GOLANG_ARCH} go build -v -tags musl -o /usr/local/bin/builder ./main.go
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=${GOLANG_ARCH} go build -v -tags musl -o /usr/local/bin/builder ./main.go
 
 # Some info
 RUN echo "Build Time: File Info" && ls -alh /usr/local/bin/builder || echo "Failed ls with RC $?"
