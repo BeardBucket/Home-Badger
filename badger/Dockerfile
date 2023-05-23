@@ -46,3 +46,6 @@ RUN chmod 755 /etc/s6-overlay/s6-rc.d/badger/* /usr/bin/badger
 # Debug
 RUN file /usr/bin/badger
 RUN /usr/bin/badger --help
+RUN echo "File info" && ls -alh /usr/local/bin/builder
+RUN echo "LDD" && ldd /usr/local/bin/builder
+RUN echo "Hash" && sha512 /usr/local/bin/builder
