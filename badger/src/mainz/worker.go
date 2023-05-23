@@ -105,10 +105,14 @@ func (w MainWorker) OnCycle() error {
 func (w MainWorker) OnRun() error {
 	w.L().Debug("runnnnnnnnnnn")
 	go func() {
-		hass, _ := hasser.NewHass(w)
-		err := hass.TestingF()
+		hass, err := hasser.NewHass(w)
 		if err != nil {
 			w.FailIt("Problem creating Hass", err)
+			return
+		}
+		if err := hass.TestingF(); err != nil {
+			w.FailIt("Problem testing Hass", err)
+			return
 		}
 	}()
 	return nil

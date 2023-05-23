@@ -1,12 +1,20 @@
 package hasser
 
-import "github.com/pawal/go-hass"
+import (
+	"github.com/pawal/go-hass"
+	"os"
+)
+
+func init() {
+
+}
 
 // CreateAccess creates and associated a hass.Access struct
-func (i EventHassImpl) CreateAccess() error {
-	a := hass.NewAccess("http://localhost:8123", "")
-	err := a.CheckAPI()
-	if err != nil {
+func (i *EventHassImpl) CreateAccess() error {
+	a := hass.NewAccess("http://supervisor", "")
+	a.SetBearerToken(os.Getenv("SUPERVISOR_TOKEN"))
+	a.SetPath(hass.PathTypeAPI, "/")
+	if err := a.CheckAPI(); err != nil {
 		return err
 	}
 	i.w.L().Debug("API ok")
@@ -15,7 +23,7 @@ func (i EventHassImpl) CreateAccess() error {
 }
 
 // Access fetches the hass.Access struct
-func (i EventHassImpl) Access() (*hass.Access, error) {
+func (i *EventHassImpl) Access() (*hass.Access, error) {
 	if i.hAccess == nil {
 		if err := i.CreateAccess(); err != nil {
 			return nil, err

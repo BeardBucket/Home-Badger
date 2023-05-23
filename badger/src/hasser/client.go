@@ -3,20 +3,22 @@ package hasser
 import (
 	"github.com/BeardBucket/Home-Badger/src/hasser/hzpub"
 	"github.com/BeardBucket/Home-Badger/src/mainz/mzpub"
+	"github.com/eko/gocache/lib/v4/cache"
 	"github.com/pawal/go-hass"
 )
 
 type HassImpl struct {
-	w       mzpub.Main
-	evt     hzpub.EventHass
-	hAccess *hass.Access
+	w   mzpub.Main
+	evt hzpub.EventHass
 }
 
 type EventHassImpl struct {
-	HassImpl
+	*HassImpl
+	hAccess *hass.Access
+	hCache  *cache.Cache[string]
 }
 
-func (h HassImpl) NewEventHass() (hzpub.EventHass, error) {
+func (h *HassImpl) NewEventHass() (hzpub.EventHass, error) {
 	if h.evt != nil {
 		return nil, hzpub.ErrEventHassExists
 	}
@@ -24,6 +26,7 @@ func (h HassImpl) NewEventHass() (hzpub.EventHass, error) {
 		HassImpl: h,
 	}
 	h.evt = &e
+	e.evt = &e
 	if err := e.CreateAccess(); err != nil {
 		h.evt = nil // We don't exist anymore
 		return nil, err
@@ -31,10 +34,16 @@ func (h HassImpl) NewEventHass() (hzpub.EventHass, error) {
 	return &e, nil
 }
 
-func (h HassImpl) Evt() hzpub.EventHass {
+func (h *HassImpl) Evt() hzpub.EventHass {
+	if h.evt == nil {
+		if _, err := h.NewEventHass(); err != nil {
+			h.Main().L().Error("Failed to create NewEventHass")
+		}
+	}
 	return h.evt
 }
-func (h HassImpl) Main() mzpub.Main {
+
+func (h *HassImpl) Main() mzpub.Main {
 	return h.w
 }
 
@@ -50,10 +59,15 @@ func NewHass(w mzpub.Main) (hzpub.Hass, error) {
 }
 
 // TestingF runs a quick, dev check - not for prod
-func (h HassImpl) TestingF() error { // TODO: Remove this
-	a := hass.NewAccess("http://localhost:8123", "")
-	err := a.CheckAPI()
+func (h *HassImpl) TestingF() error { // TODO: Remove this
+	a, err := h.Evt().Access()
 	if err != nil {
+		h.w.L().Warn("Failed to get API")
+		return err
+	}
+
+	if err := a.CheckAPI(); err != nil {
+		h.w.L().Warn("Failed API check")
 		return err
 	}
 	h.w.L().Info("API ok")
