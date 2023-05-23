@@ -13,13 +13,15 @@ declare log_level
 log_level=$(bashio::config 'log_level')
 bashio::log.info "Setting log level to ${log_level:=info}"
 
+bashio::log.info "Showing debug info..."
 # FIXME: Remove dis - very bad for security
 cat /data/options.json
 env
 ls -alh /data
 ls -alh /usr/bin/badger
 sha512sum /usr/bin/badger
-ldd /usr/bin/badger
+ldd /usr/bin/badger || bashio::log.info "Failed to run ldd with rc $?"
+/usr/bin/badger --help || bashio::log.info "Failed to run badger help with rc $?"
 
 bashio::log.info "Service is starting..."
 set -e
