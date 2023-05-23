@@ -17,6 +17,7 @@ bashio::log.info "Setting log level to ${log_level:=info}"
 cat /data/options.json
 env
 ls -alh /data
+ldd /usr/bin/badger
 
 bashio::log.info "Service is starting..."
 set -e
