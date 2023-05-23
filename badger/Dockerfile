@@ -17,9 +17,10 @@ WORKDIR /usr/src/app
 RUN GOOS=linux GOARCH=${GOLANG_ARCH} go build -v -o /usr/local/bin/builder ./main.go
 
 # Some info
-RUN echo "File info" && ls -alh /usr/local/bin/builder
-RUN echo "LDD" && ldd /usr/local/bin/builder
-RUN echo "Hash" && sha512 /usr/local/bin/builder
+RUN echo "Build Time: File Info" && ls -alh /usr/local/bin/builder || echo "Failed ls with RC $?"
+RUN echo "Build Time: File Type" && file /usr/local/bin/builder || echo "Failed file with RC $?"
+RUN echo "Build Time: LDD" && ldd /usr/local/bin/builder || echo "Failed ldd with RC $?"
+RUN echo "Build Time: Hash" && sha512 /usr/local/bin/builder || echo "Failed sha512sum with RC $?"
 
 ## Debug
 #RUN apk add file
@@ -44,8 +45,8 @@ RUN chown root:root /etc/s6-overlay/s6-rc.d/badger/* /usr/bin/badger
 RUN chmod 755 /etc/s6-overlay/s6-rc.d/badger/* /usr/bin/badger
 
 # Debug
-RUN file /usr/bin/badger
-RUN /usr/bin/badger --help
-RUN echo "File info" && ls -alh /usr/local/bin/builder
-RUN echo "LDD" && ldd /usr/local/bin/builder
-RUN echo "Hash" && sha512 /usr/local/bin/builder
+RUN echo "Build Image Time: File Info" && ls -alh /usr/local/bin/builder || echo "Failed ls with RC $?"
+RUN echo "Build Image Time: File Type" && file /usr/local/bin/builder || echo "Failed file with RC $?"
+RUN echo "Build Image Time: LDD" && ldd /usr/local/bin/builder || echo "Failed ldd with RC $?"
+RUN echo "Build Image Time: Hash" && sha512 /usr/local/bin/builder || echo "Failed sha512sum with RC $?"
+RUN echo "Build Image Time: Run w/ help" && /usr/bin/badger --help
