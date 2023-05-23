@@ -73,11 +73,11 @@ func (h *HassImpl) TestingF() error { // TODO: Remove this
 	h.w.L().Info("API ok")
 
 	// Get the state of a device
-	s, err := a.GetState("group.kitchen")
+	s, err := a.GetState("switch.relay_board_000_relay_01")
 	if err != nil {
 		return err
 	}
-	h.w.L().Info("Group kitchen state: %s\n", s.State)
+	h.w.L().Info("Group %s state: %s\n", s.EntityID, s.State)
 
 	// Create and interact with a device object
 	dev, _ := a.GetDevice(s)
