@@ -1,9 +1,9 @@
 module github.com/BeardBucket/Home-Badger/src
 
-go 1.19
+go 1.20
 
-//replace github.com/pawal/go-hass => ../../../go-hass
-replace github.com/pawal/go-hass => github.com/BeardBucket/go-hass v0.0.0-20230523130704-4c80c20ba8df
+replace github.com/pawal/go-hass => ../../../go-hass
+//replace github.com/pawal/go-hass => github.com/BeardBucket/go-hass latest
 
 require (
 	github.com/dgraph-io/ristretto v0.1.1
