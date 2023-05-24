@@ -16,7 +16,7 @@ COPY src/ /usr/src/app
 
 WORKDIR /usr/src/app
 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=${GOLANG_ARCH} go build -ldflags '-extldflags "-static -no-pie"' -v -tags musl -o /usr/local/bin/builder ./main.go
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=${GOLANG_ARCH} go build -ldflags '-extldflags "-static -no-pie"' -v -tags musl,static_build -o /usr/local/bin/builder ./main.go
 
 # Some info
 RUN echo "Build Time: File Info" && ls -alh /usr/local/bin/builder || echo "Failed ls with RC $?"
